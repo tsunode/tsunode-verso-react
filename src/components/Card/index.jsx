@@ -1,6 +1,10 @@
-const Card = ({ surname, name, age }) => {
+import { Container } from "./styles";
+
+const Card = ({ image }) => {
     return(
-        <li>{surname} - {age} - {name}</li>
+        <Container>
+            <img src={image} alt="" />
+        </Container>
     )
 } 
 

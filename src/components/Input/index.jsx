@@ -1,12 +1,12 @@
-import './styles.css'
+import { Container } from './styles.js';
 
 const Input = ({ id, label, type, name, children }) => {
     return(
-        <>
+        <Container>
+            <input type={type} name={name} id={id} placeholder=' ' />
             <label htmlFor={id}>{label}</label>
-            <input type={type} name={name} id={id} />
             {children}
-        </>
+        </Container>
     )
 }
 
