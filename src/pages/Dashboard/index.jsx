@@ -11,7 +11,17 @@ import teste5 from '../../assets/teste5.gif';
 const Dashboard = () => {
     return(
         <Section>
-              <ul>
+            <ul>
+                <Card image={teste1} />
+                <Card image={teste2} />
+                <Card image={teste3} />
+                <Card image={teste4} />
+                <Card image={teste5} />
+                <Card image={teste1} />
+                <Card image={teste2} />
+                <Card image={teste3} />
+                <Card image={teste4} />
+                <Card image={teste5} />
                 <Card image={teste1} />
                 <Card image={teste2} />
                 <Card image={teste3} />
