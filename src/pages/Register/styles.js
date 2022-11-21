@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Steps = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
 
     div {
         width: 12px;

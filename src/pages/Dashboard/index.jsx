@@ -8,26 +8,42 @@ import { Header } from "../../components/Header";
 import { Main } from "../../styles/Main";
 import Input from "../../components/Input";
 import { Button } from "../../styles/Button";
+import { InfiniteScroll } from "../../components/InfiniteScroll";
 
-
-const Dashboard = () => {
+export const Dashboard = () => {
     const [projects, setProjects] = useState([]);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         api.get('/projects', {
             params: {
-                page: 1,
-                pageSize: 20
+                page,
+                pageSize: 3,
+                q: search
             }
         })
-        .then(response => setProjects(response.data))
+        .then(response => {
+            if(search && page === 1) {
+                setProjects(response.data)
+            }else {
+                setProjects((oldProjects) => [...oldProjects, ...response.data])
+            }
+        }) 
         .catch(error => console.error(error));
-    }, [])
+    }, [page, search]);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        setSearch(event.target.project.value);
+        setPage(1);
+    }
 
     return(
         <main>
             <Header>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <Input 
                         label='Procurar por projetos...'
                         name='project'
@@ -36,9 +52,6 @@ const Dashboard = () => {
                 </form>
                 <Button variant='primary'>Novo projeto</Button>
             </Header>
-
-            <Button variant='primary'>Novo projeto</Button>
-            <Button variant='inline'>Voltar</Button>
 
             <Section>
                 <ul>
@@ -51,9 +64,8 @@ const Dashboard = () => {
                         )
                     }
                 </ul>
+                <InfiniteScroll callback={() => setPage((oldPage) => oldPage + 1)}/>
             </Section>
         </main>
     )
 }
-
-export default Dashboard

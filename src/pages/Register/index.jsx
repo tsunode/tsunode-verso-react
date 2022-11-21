@@ -5,15 +5,17 @@ import { Main } from "../../styles/Main"
 
 import tsunodeverso from "../../assets/tsunodeverso.svg"
 import { Steps } from "./styles";
+import { Form } from "../../styles/Form";
+import { Button } from "../../styles/Button";
 
-const Register = () => {
+export const Register = () => {
     const [step, setStep] = useState(1);
 
     return(
         <Main>
             <img src={tsunodeverso} alt='Logo tsunode verso' /> 
 
-            <form>
+            <Form>
                 <fieldset>
                     <legend>Faça seu cadastro:</legend>
 
@@ -37,7 +39,7 @@ const Register = () => {
                                     label='E-mail:' 
                                     type='email'  
                                 />
-                                <button type="button" onClick={() => setStep(2)}>Próximo</button>
+                                <Button type="button" variant='primary' onClick={() => setStep(2)}>Próximo</Button>
                             </div>
                             :
                             <div>
@@ -53,15 +55,11 @@ const Register = () => {
                                     label='Confirmar senha:' 
                                     type='password'  
                                 />
-                                <button type="button"  onClick={() => setStep(1)}>Voltar</button>
+                                <Button type="button" variant='inline' onClick={() => setStep(1)}>Voltar</Button>
                             </div>
                     }
-                  
-
                 </fieldset>
-            </form>
+            </Form>
         </Main>
     )
 }
-
-export default Register

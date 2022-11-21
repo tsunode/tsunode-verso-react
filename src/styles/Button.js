@@ -22,4 +22,5 @@ export const Button = styled.button`
     padding: 0 15px;
     border-radius: 6px;
     font-weight: 500;
+    width: 100%;
 `;
