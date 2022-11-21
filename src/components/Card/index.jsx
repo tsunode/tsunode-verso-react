@@ -4,7 +4,7 @@ import Profile from '../Profile';
 
 import { Container } from "./styles";
 
-const Card = ({ image }) => {
+const Card = ({ thumbUrl, title, link, user }) => {
     const [imageSize, setImageSize] = useState(30);
 
     function getImageSize(event) {
@@ -21,19 +21,21 @@ const Card = ({ image }) => {
 
     return(
         <Container size={imageSize}>
-            <div>
-                <img 
-                    onLoad={getImageSize} 
-                    src={image} 
-                    alt="" 
-                />
-                <p>Banco de dados do sistema financeiro do Banco do Brasil</p>
-            </div>
+            <a href={link} target='_blank' rel='noreferrer'>
+                <div>
+                    <img 
+                        onLoad={getImageSize} 
+                        src={thumbUrl} 
+                        alt={title}
+                    />
+                    <p>{title}</p>
+                </div>
 
-            <div>
-                <Profile />
-                <span>Tsunode</span>
-            </div>
+                <div>
+                    <Profile />
+                    <span>{user.name} {user.surname}</span>
+                </div>
+            </a>
         </Container>
     )
 } 

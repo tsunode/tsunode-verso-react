@@ -1,0 +1,23 @@
+import { Children } from 'React'
+import Profile from "../Profile"
+
+import { Container } from "./styles";
+import logoTsunodeVerso from '../../assets/tsunodeverso.svg';
+
+export const Header = ({ children }) => {
+    console.log(Children.toArray(children));
+    const [FormSearch, LinkNewProject] = Children.toArray(children);
+
+    return(
+        <Container>
+            <img src={logoTsunodeVerso} alt="Logo Tsunode Verso" />
+
+            {FormSearch}
+
+            <div>
+                {LinkNewProject}
+                <Profile />
+            </div>
+        </Container>
+    )
+}

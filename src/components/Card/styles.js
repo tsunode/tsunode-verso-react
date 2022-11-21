@@ -12,8 +12,13 @@ export const Container = styled.li`
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 8px;
+
+    > a {
+        text-decoration: none;
+        color: #fff;
+    }
     
-    > div:nth-of-type(1) {
+    > a > div:nth-of-type(1) {
         position: relative;
         
         p {
@@ -38,7 +43,7 @@ export const Container = styled.li`
         }
     }
 
-    > div:nth-of-type(2) { 
+    > a > div:nth-of-type(2) { 
         display: flex;
         align-items: center;
         gap: 6px;
@@ -49,6 +54,4 @@ export const Container = styled.li`
             font-family: 'Inter';
         }
     }
-
-
 `

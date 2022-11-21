@@ -10,8 +10,8 @@ const App = () => {
   return (
     <div>
       <GlobalStyle />
-      {/* <Dashboard /> */}
-      <Register />
+      <Dashboard />
+      {/* <Register /> */}
     </div>
   )
 }
