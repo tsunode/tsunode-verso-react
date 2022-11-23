@@ -18,7 +18,7 @@ interface IUser {
     avatarUrl: string;
 }
 
-interface IProject {
+export interface IProject {
     id: string
     title: string;
     description: string;

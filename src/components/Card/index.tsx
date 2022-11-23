@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
+import { IProject } from '../../pages/Dashboard';
 import { GRID_SECTION_ROW_SIZE } from '../../pages/Dashboard/styles';
 import Profile from '../Profile';
 
 import { Container } from "./styles";
 
-const Card = ({ thumbUrl, title, link, user }) => {
+interface ITargetImage {
+    height: number
+}
+
+const Card = ({ thumbUrl, title, link, user }: IProject) => {
     const [imageSize, setImageSize] = useState(30);
 
-    function getImageSize(event) {
-        const { height } = event.target;
+    function getImageSize(event: SyntheticEvent<HTMLImageElement, Event>) {
+        const { height } = event.target as unknown as ITargetImage;
 
         const GRID_CONTENT_SPAN_SIZE = 4;
         

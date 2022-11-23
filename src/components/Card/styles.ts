@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Container = styled.li`
+interface IContainerProps {
+    size: number;
+}
+
+export const Container = styled.li<IContainerProps>`
     grid-row-end: span ${({ size }) => size};
     width: 230px;
 
