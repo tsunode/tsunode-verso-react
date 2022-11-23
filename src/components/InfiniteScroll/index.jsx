@@ -7,7 +7,7 @@ export const InfiniteScroll = ({ callback }) => {
         const intersectionObserver = new IntersectionObserver(([entry]) => {
             const { intersectionRatio: ratio } = entry;
 
-            if(ratio > 0 ) {
+            if(ratio > 0 && !loading) {
                 callback();
             }
         }, { rootMargin: '5px'});

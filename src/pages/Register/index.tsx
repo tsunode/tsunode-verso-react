@@ -37,7 +37,7 @@ export const Register = () => {
                                     id='email' 
                                     name='email' 
                                     label='E-mail:' 
-                                    type='email'  
+                                    type='email'
                                 />
                                 <Button type="button" variant='primary' onClick={() => setStep(2)}>Próximo</Button>
                             </div>

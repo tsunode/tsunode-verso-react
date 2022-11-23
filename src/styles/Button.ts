@@ -1,5 +1,9 @@
 import styled, { css } from "styled-components";
 
+interface IButtonProps {
+    variant: 'primary' | 'error' | 'inline';
+}
+
 const ButtonStyled = {
     primary: css` 
         background: var(--color-primary);
@@ -14,7 +18,7 @@ const ButtonStyled = {
     `,
 }
 
-export const Button = styled.button`
+export const Button = styled.button<IButtonProps>`
     ${({ variant }) => ButtonStyled[variant]}
 
     border: none;

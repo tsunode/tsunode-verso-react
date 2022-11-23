@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Steps = styled.div`
+interface IStepsProps {
+    step: number;
+}
+
+export const Steps = styled.div<IStepsProps>`
     display: flex;
     justify-content: center;
     width: 100%;

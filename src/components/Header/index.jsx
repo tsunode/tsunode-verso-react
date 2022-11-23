@@ -1,4 +1,4 @@
-import { Children } from 'React'
+import { Children } from 'react'
 import Profile from "../Profile"
 
 import { Container } from "./styles";
