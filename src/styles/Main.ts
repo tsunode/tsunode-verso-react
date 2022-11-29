@@ -14,4 +14,8 @@ export const Main = styled.main`
         max-width: 200px;
         margin-bottom: 56px;
     }
+
+    a {
+        margin-top: 10px
+    }
 `;

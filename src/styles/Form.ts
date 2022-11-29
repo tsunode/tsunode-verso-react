@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Form = styled.form`
-    width: 400px;
+    width: 450px;
 
     fieldset {
         position: relative;
