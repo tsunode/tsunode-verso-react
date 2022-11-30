@@ -4,6 +4,7 @@ export const Container = styled.header`
     max-height: 120px;
 
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     position: sticky;

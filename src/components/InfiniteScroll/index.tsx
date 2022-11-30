@@ -1,13 +1,18 @@
 import { useEffect, useRef } from "react";
 
 interface IInfiniteScrollProps {
-    callback: () => void
+    callback: () => void;
+    hasNextPage: boolean;
 }
 
-export const InfiniteScroll = ({ callback }: IInfiniteScrollProps) => {
+export const InfiniteScroll = ({ callback, hasNextPage }: IInfiniteScrollProps) => {
     const divInfiniteScrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if(!hasNextPage) {
+            return;
+        }
+
         const intersectionObserver = new IntersectionObserver(([entry]) => {
             const { intersectionRatio: ratio } = entry;
 
@@ -21,9 +26,11 @@ export const InfiniteScroll = ({ callback }: IInfiniteScrollProps) => {
         }
 
         return () => {
-            intersectionObserver.disconnect();
+            if(divInfiniteScrollRef.current) {
+                intersectionObserver.unobserve(divInfiniteScrollRef.current)
+            }
         }
-    }, [divInfiniteScrollRef])
+    }, [divInfiniteScrollRef, hasNextPage])
 
     return <div ref={divInfiniteScrollRef} />
 }

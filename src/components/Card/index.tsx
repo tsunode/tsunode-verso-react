@@ -37,7 +37,7 @@ const Card = ({ thumbUrl, title, link, user }: IProject) => {
                 </div>
 
                 <div>
-                    <Profile />
+                    <Profile size={35} />
                     <span>{user.name} {user.surname}</span>
                 </div>
             </a>

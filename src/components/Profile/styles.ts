@@ -1,19 +1,23 @@
 import styled from "styled-components";
 
-export const Container = styled.figure`
+interface IContainerProps {
+  size: number;
+}
+
+export const Container = styled.figure<IContainerProps>`
   display: flex;
   align-items: center;
   justify-content: center;
 
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  min-width: ${({ size }) => size}px;
+  min-height: ${({ size }) => size}px;
 
-    background-image: linear-gradient(to right, #02fe50, #49b866, #b1ffc6);
+  background-image: linear-gradient(to right, #02fe50, #49b866, #b1ffc6);
   
   img {
-    width: 28px;
-    height: 28px;
+    width: ${({ size }) => size - 4}px;
+    height: ${({ size }) => size - 4}px;
     border-radius: 50%;
   }
 `

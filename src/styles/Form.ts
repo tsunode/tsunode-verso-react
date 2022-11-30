@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Form = styled.form`
-    width: 400px;
+    width: 450px;
 
     fieldset {
         position: relative;
@@ -28,5 +28,10 @@ export const Form = styled.form`
         div {
             /* width: 100% */
         }
+    }
+
+    p {
+        text-align: center;
+        margin: 18px 0;
     }
 `

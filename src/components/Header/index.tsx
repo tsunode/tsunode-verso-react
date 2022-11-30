@@ -19,7 +19,7 @@ export const Header = ({ children }: IHeaderProps) => {
 
             <div>
                 {LinkNewProject}
-                <Profile />
+                <Profile size={60} />
             </div>
         </Container>
     )

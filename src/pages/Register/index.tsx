@@ -7,6 +7,7 @@ import tsunodeverso from "../../assets/tsunodeverso.svg"
 import { Steps } from "./styles";
 import { Form } from "../../styles/Form";
 import { Button } from "../../styles/Button";
+import { FormStep } from "../../styles/FormStep";
 
 export const Register = () => {
     const [step, setStep] = useState(1);
@@ -15,7 +16,7 @@ export const Register = () => {
         <Main>
             <img src={tsunodeverso} alt='Logo tsunode verso' /> 
 
-            <Form>
+            <FormStep step={step}>
                 <fieldset>
                     <legend>Faça seu cadastro:</legend>
 
@@ -24,42 +25,57 @@ export const Register = () => {
                         <div/>
                     </Steps>
 
-                    {
-                       step === 1 ?
-                            <div>
-                                <Input 
-                                    id='name' 
-                                    name='name' 
-                                    label='Name:' 
-                                    type='text'  
-                                />
-                                <Input 
-                                    id='email' 
-                                    name='email' 
-                                    label='E-mail:' 
-                                    type='email'
-                                />
-                                <Button type="button" variant='primary' onClick={() => setStep(2)}>Próximo</Button>
-                            </div>
-                            :
-                            <div>
-                                <Input 
-                                    id='password' 
-                                    name='password' 
-                                    label='Senha:' 
-                                    type='password'  
-                                />
-                                <Input 
-                                    id='confirm-password' 
-                                    name='confirmPassword' 
-                                    label='Confirmar senha:' 
-                                    type='password'  
-                                />
-                                <Button type="button" variant='inline' onClick={() => setStep(1)}>Voltar</Button>
-                            </div>
-                    }
+                    <p>Preencha os seus dados pessoais</p>
+
+                    <div className="steps-container">
+                        <div>
+                            <Input 
+                                id='name' 
+                                name='name' 
+                                label='Name:' 
+                                type='text'  
+                            />
+                            <Input 
+                                id='surname' 
+                                name='surname' 
+                                label='Sobrenome:' 
+                                type='text'
+                            />
+                            <Input 
+                                id='title' 
+                                name='title' 
+                                label='Título (opcional):' 
+                                type='text'
+                            />
+                            <Button type="button" variant='primary' onClick={() => setStep(2)}>Próximo</Button>
+                        </div>
+                        
+                        <div>
+                            <Input 
+                                id='email' 
+                                name='email' 
+                                label='E-mail:' 
+                                type='email'  
+                            />
+                            <Input 
+                                id='password' 
+                                name='password' 
+                                label='Senha:' 
+                                type='password'  
+                            />
+                            <Input 
+                                id='confirm-password' 
+                                name='confirmPassword' 
+                                label='Confirmar senha:' 
+                                type='password'  
+                            />
+                            <Button type="submit" variant='primary'>Concluir</Button>
+                            <Button type="button" variant='inline' onClick={() => setStep(1)}>Voltar</Button>
+                        </div>
+                    </div>
+                    
                 </fieldset>
-            </Form>
+            </FormStep>
         </Main>
     )
 }

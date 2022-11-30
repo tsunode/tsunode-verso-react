@@ -1,14 +1,17 @@
-import { FormEvent, useEffect, useState } from "react";
-import Card from "../../components/Card"
+import { FormEvent, useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { useSearchParams } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
+
 import { api } from "../../services/api";
 
-import { Section } from "./styles";
-
 import { Header } from "../../components/Header";
+import Card from "../../components/Card"
 import Input from "../../components/Input";
-import { Button } from "../../styles/Button";
 import { InfiniteScroll } from "../../components/InfiniteScroll";
-import axios from "axios";
+
+import { Section } from "./styles";
+import { Button, Link } from "../../styles/Button";
 
 interface IUser {
     name: string;
@@ -36,31 +39,59 @@ export const Dashboard = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
     const [page, setPage] = useState(1);
     const [inputSearch, setInputSearch] = useState('');
-    const [search, setSearch] = useState('');
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
+        const { CancelToken } = axios;
+        const source = CancelToken.source();
+
         api.get<IProject[]>('/projects', {
             params: {
                 page,
-                pageSize: 3,
-                q: search
+                pageSize: 10,
+                q: searchParams.get('q')
             },
+            cancelToken: source.token
         })
         .then(response => {
-            if(search && page === 1) {
-                setProjects(response.data)
+            const { data } = response;
+
+            if(page === 1) {
+                setProjects(data)
             }else {
-                setProjects((oldProjects) => [...oldProjects, ...response.data])
+                setProjects((oldProjects) => [...oldProjects, ...data])
+            }
+
+            if(!data.length) {
+                setHasNextPage(false);
             }
         }) 
         .catch(error => console.error(error))
+
+        return () => {
+            if(isFirstRender.current) {
+                isFirstRender.current = false;
+                return;
+            }
+
+            source.cancel();
+        }
     }, [page]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchParams])
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        setSearch(inputSearch);
-        setPage(1);
+        setSearchParams({
+            q: inputSearch
+        });
+        setHasNextPage(true);
     }
 
     return(
@@ -72,9 +103,13 @@ export const Dashboard = () => {
                         name='project'
                         id='project'
                         onChange={event => setInputSearch(event.target.value)}
-                    />
+                    >
+                        <Button variant="inline" width="auto">
+                            <FiSearch />
+                        </Button>
+                    </Input>
                 </form>
-                <Button variant='primary'>Novo projeto</Button>
+                <Link to='' variant='primary'>Novo projeto</Link>
             </Header>
 
             <Section>
@@ -88,7 +123,11 @@ export const Dashboard = () => {
                         )
                     }
                 </ul>
-               {<InfiniteScroll callback={() => setPage((oldPage) => oldPage + 1)}/> }
+    
+                <InfiniteScroll 
+                    callback={() => setPage((oldPage) => oldPage + 1)}
+                    hasNextPage={hasNextPage}
+                />
             </Section>
         </main>
     )

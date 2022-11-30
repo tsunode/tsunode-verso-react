@@ -1,9 +1,13 @@
 import { Container } from "./styles";
 import profile from '../../assets/profile.webp';
 
-const Profile = () => {
+interface IProfileProps {
+    size: number
+}
+
+const Profile = ({ size }: IProfileProps) => {
     return (
-        <Container>
+        <Container size={size}>
             <img src={profile} alt="" />
         </Container>
     )
