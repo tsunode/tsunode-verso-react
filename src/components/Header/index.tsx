@@ -1,5 +1,5 @@
 import { Children, ReactNode } from 'react'
-import Profile from "../Profile"
+import { Profile } from "../Profile"
 
 import { Container } from "./styles";
 import logoTsunodeVerso from '../../assets/tsunodeverso.svg';

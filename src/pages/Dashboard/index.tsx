@@ -6,8 +6,8 @@ import { FiSearch } from 'react-icons/fi';
 import { api } from "../../services/api";
 
 import { Header } from "../../components/Header";
-import Card from "../../components/Card"
-import Input from "../../components/Input";
+import { Card } from "../../components/Card"
+import { Input } from "../../components/Input";
 import { InfiniteScroll } from "../../components/InfiniteScroll";
 
 import { Section } from "./styles";

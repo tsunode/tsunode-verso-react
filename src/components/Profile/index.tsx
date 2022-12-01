@@ -5,12 +5,10 @@ interface IProfileProps {
     size: number
 }
 
-const Profile = ({ size }: IProfileProps) => {
+export const Profile = ({ size }: IProfileProps) => {
     return (
         <Container size={size}>
             <img src={profile} alt="" />
         </Container>
     )
 }
-
-export default Profile;

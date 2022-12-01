@@ -1,7 +1,7 @@
 import { MdEmail } from 'react-icons/md'
 import { HiKey } from 'react-icons/hi'
 
-import Input from "../../components/Input"
+import { Input } from "../../components/Input"
 import { Main } from "../../styles/Main"
 
 import tsunodeverso from "../../assets/tsunodeverso.svg"

@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from 'react';
 import { IProject } from '../../pages/Dashboard';
 import { GRID_SECTION_ROW_SIZE } from '../../pages/Dashboard/styles';
-import Profile from '../Profile';
+import { Profile } from '../Profile';
 
 import { Container } from "./styles";
 
@@ -9,7 +9,7 @@ interface ITargetImage {
     height: number
 }
 
-const Card = ({ thumbUrl, title, link, user }: IProject) => {
+export const Card = ({ thumbUrl, title, link, user }: IProject) => {
     const [imageSize, setImageSize] = useState(30);
 
     function getImageSize(event: SyntheticEvent<HTMLImageElement, Event>) {
@@ -43,6 +43,4 @@ const Card = ({ thumbUrl, title, link, user }: IProject) => {
             </a>
         </Container>
     )
-} 
-
-export default Card;
+}
