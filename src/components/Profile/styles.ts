@@ -1,10 +1,7 @@
 import styled from "styled-components";
+import { IProfileProps } from './types';
 
-interface IContainerProps {
-  size: number;
-}
-
-export const Container = styled.figure<IContainerProps>`
+export const Container = styled.figure<IProfileProps>`
   display: flex;
   align-items: center;
   justify-content: center;

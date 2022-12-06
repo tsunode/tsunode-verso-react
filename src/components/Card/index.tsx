@@ -4,10 +4,7 @@ import { GRID_SECTION_ROW_SIZE } from '../../pages/Dashboard/styles';
 import { Profile } from '../Profile';
 
 import { Container } from "./styles";
-
-interface ITargetImage {
-    height: number
-}
+import { ITargetImage } from './types';
 
 export const Card = ({ thumbUrl, title, link, user }: IProject) => {
     const [imageSize, setImageSize] = useState(30);

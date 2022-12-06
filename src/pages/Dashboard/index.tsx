@@ -1,5 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { useSearchParams } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 
@@ -12,104 +11,34 @@ import { InfiniteScroll } from "../../components/InfiniteScroll";
 
 import { Section } from "./styles";
 import { Button, Link } from "../../styles/Button";
-
-interface IUser {
-    name: string;
-    surname: string;
-    title: string;
-    avatar: string;
-    avatarUrl: string;
-}
-
-export interface IProject {
-    id: string
-    title: string;
-    description: string;
-    link: string;
-    adtionalLink: string;
-    thumb: string;
-    thumbUrl: string;
-    user: IUser;
-    createdAt: Date;
-    updatedAt: Date;
-    elapsedTime: string;
-}
+import { useForm } from "react-hook-form";
+import { ProjectContext } from "../../providers/ProjectContext";
+import { ISearchProjectData } from "./types";
 
 export const Dashboard = () => {
-    const [projects, setProjects] = useState<IProject[]>([]);
-    const [page, setPage] = useState(1);
-    const [inputSearch, setInputSearch] = useState('');
-    const [hasNextPage, setHasNextPage] = useState(true);
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const isFirstRender = useRef(true);
-
-    useEffect(() => {
-        const { CancelToken } = axios;
-        const source = CancelToken.source();
-
-        api.get<IProject[]>('/projects', {
-            params: {
-                page,
-                pageSize: 10,
-                q: searchParams.get('q')
-            },
-            cancelToken: source.token
-        })
-        .then(response => {
-            const { data } = response;
-
-            if(page === 1) {
-                setProjects(data)
-            }else {
-                setProjects((oldProjects) => [...oldProjects, ...data])
-            }
-
-            if(!data.length) {
-                setHasNextPage(false);
-            }
-        }) 
-        .catch(error => console.error(error))
-
-        return () => {
-            if(isFirstRender.current) {
-                isFirstRender.current = false;
-                return;
-            }
-
-            source.cancel();
-        }
-    }, [page]);
-
-    useEffect(() => {
-        setPage(1);
-    }, [searchParams])
-
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        setSearchParams({
-            q: inputSearch
-        });
-        setHasNextPage(true);
-    }
-
+   const { register, handleSubmit } = useForm<ISearchProjectData>();
+   const { 
+        projects, 
+        setProjectPage, 
+        hasNextPage, 
+        handleFilterProject 
+    } = useContext(ProjectContext);
+ 
     return(
         <main>
             <Header>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(handleFilterProject)}>
                     <Input 
                         label='Procurar por projetos...'
-                        name='project'
                         id='project'
-                        onChange={event => setInputSearch(event.target.value)}
+                        {...register('project')}
                     >
                         <Button variant="inline" width="auto">
                             <FiSearch />
                         </Button>
                     </Input>
                 </form>
-                <Link to='' variant='primary'>Novo projeto</Link>
+                <Link to='/new-project' variant='primary'>Novo projeto</Link>
             </Header>
 
             <Section>
@@ -125,7 +54,7 @@ export const Dashboard = () => {
                 </ul>
     
                 <InfiniteScroll 
-                    callback={() => setPage((oldPage) => oldPage + 1)}
+                    callback={setProjectPage}
                     hasNextPage={hasNextPage}
                 />
             </Section>

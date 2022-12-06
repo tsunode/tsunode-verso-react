@@ -1,12 +1,9 @@
-import { Children, ReactNode } from 'react'
+import { Children } from 'react'
 import { Profile } from "../Profile"
 
 import { Container } from "./styles";
 import logoTsunodeVerso from '../../assets/tsunodeverso.svg';
-
-interface IHeaderProps {
-    children: ReactNode
-}
+import { IHeaderProps } from './types';
 
 export const Header = ({ children }: IHeaderProps) => {
     const [FormSearch, LinkNewProject] = Children.toArray(children);

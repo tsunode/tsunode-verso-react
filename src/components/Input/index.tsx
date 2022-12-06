@@ -1,12 +1,6 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Container } from './styles.js';
-
-interface IInputProps 
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'placeholder'> {
-    label: string;
-    error?: string;
-    children?: ReactNode;
-}
+import { IInputProps } from './types.js';
 
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
     ({ id, label, alt, error, children, ...rest }, ref) => (

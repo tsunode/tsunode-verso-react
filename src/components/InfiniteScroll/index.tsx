@@ -1,9 +1,5 @@
 import { useEffect, useRef } from "react";
-
-interface IInfiniteScrollProps {
-    callback: () => void;
-    hasNextPage: boolean;
-}
+import { IInfiniteScrollProps } from "./types";
 
 export const InfiniteScroll = ({ callback, hasNextPage }: IInfiniteScrollProps) => {
     const divInfiniteScrollRef = useRef<HTMLDivElement>(null);

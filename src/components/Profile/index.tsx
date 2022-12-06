@@ -1,9 +1,6 @@
 import { Container } from "./styles";
 import profile from '../../assets/profile.webp';
-
-interface IProfileProps {
-    size: number
-}
+import { IProfileProps } from "./types";
 
 export const Profile = ({ size }: IProfileProps) => {
     return (
