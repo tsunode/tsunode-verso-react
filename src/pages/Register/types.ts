@@ -4,5 +4,5 @@ export interface IRegisterData {
     title: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirmation: string;
 }

@@ -65,7 +65,7 @@ export const Container = styled.div`
         }
     }
     
-    p {
+    p.error-input {
         margin-top: 2px;
         text-align: left;
         color: var(--color-error)

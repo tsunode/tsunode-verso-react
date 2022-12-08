@@ -1,8 +1,5 @@
-import { FormEvent, useContext, useRef, useState } from "react";
-import { useSearchParams } from 'react-router-dom';
+import { useContext } from "react";
 import { FiSearch } from 'react-icons/fi';
-
-import { api } from "../../services/api";
 
 import { Header } from "../../components/Header";
 import { Card } from "../../components/Card"
@@ -16,15 +13,15 @@ import { ProjectContext } from "../../providers/ProjectContext";
 import { ISearchProjectData } from "./types";
 
 export const Dashboard = () => {
-   const { register, handleSubmit } = useForm<ISearchProjectData>();
-   const { 
+    const { register, handleSubmit } = useForm<ISearchProjectData>();
+    const { 
         projects, 
         setProjectPage, 
         hasNextPage, 
         handleFilterProject 
     } = useContext(ProjectContext);
- 
-    return(
+
+    return (
         <main>
             <Header>
                 <form onSubmit={handleSubmit(handleFilterProject)}>

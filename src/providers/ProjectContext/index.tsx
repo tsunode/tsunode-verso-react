@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { createContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ISearchProjectData } from '../../pages/Dashboard/types';
 import { ICreateProject } from '../../pages/NewProject/types';
 import { api } from '../../services/api';
+import { getAllProjects } from '../../services/projectsService';
 import { IProject, IProjectContext, IProjectProviderProps } from './types';
 
 export const ProjectContext = createContext<IProjectContext>({} as IProjectContext);
@@ -15,43 +15,31 @@ export const ProjectProvider = ({ children }: IProjectProviderProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const isFirstRender = useRef(true);
-
     useEffect(() => {
-        const { CancelToken } = axios;
-        const source = CancelToken.source();
-
-        api.get<IProject[]>('/projects', {
-            params: {
-                page,
-                pageSize: 10,
-                q: searchParams.get('q')
-            },
-            cancelToken: source.token
-        })
-        .then(response => {
-            const { data } = response;
-
-            if(page === 1) {
-                setProjects(data)
-            }else {
-                setProjects((oldProjects) => [...oldProjects, ...data])
+        async function getProjects() {
+            try {
+                const data = await getAllProjects({
+                    page,
+                    pageSize: 10,
+                    q: searchParams.get('q')
+                });
+                
+                if(page === 1) {
+                    setProjects(data)
+                }else {
+                    setProjects((oldProjects) => [...oldProjects, ...data])
+                }
+    
+                if(!data.length) {
+                    setHasNextPage(false);
+                }
+            } catch (error) {
+                console.error(error)
             }
-
-            if(!data.length) {
-                setHasNextPage(false);
-            }
-        }) 
-        .catch(error => console.error(error))
-
-        return () => {
-            if(isFirstRender.current) {
-                isFirstRender.current = false;
-                return;
-            }
-
-            source.cancel();
         }
+
+        getProjects();
+
     }, [page]);
 
     useEffect(() => {
@@ -73,9 +61,9 @@ export const ProjectProvider = ({ children }: IProjectProviderProps) => {
     function createProject(data: ICreateProject) {
         console.log(data)
 
-        // vou chamar api
+        // api.post('', data)
 
-        setProjects([data, ...projects]);
+        // setProjects([data, ...projects]);
         navigate('/dashboard')
     }
 

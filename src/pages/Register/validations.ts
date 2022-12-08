@@ -8,7 +8,7 @@ export const schema = yup.object({
     email: yup.string()
         .email('Deve ser um e-mail')
         .required('Email é obrigatório'),
-    title: yup.string().optional(),
+    title: yup.string().required('Titulo obrigatório'),
     password: yup.string()
         .matches(/[A-Z]/, 'Deve conter ao menos 1 letra maiúscula')
         .matches(/[a-z]/, 'Deve conter ao menos 1 letra minuscula')
@@ -16,7 +16,7 @@ export const schema = yup.object({
         .matches(/(\W|_)/, 'Deve conter ao menos 1 caracter especial')
         .matches(/.{8,}/, 'Deve conter no mínimo 8 caracteres')
         .required(),
-    confirmPassword: yup.string()
+    passwordConfirmation: yup.string()
         .oneOf(
             [yup.ref('password')], 
             'Confirmação de senha deve ser igual a senha'

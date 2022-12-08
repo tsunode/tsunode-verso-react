@@ -1,15 +1,15 @@
 import GlobalStyle from "./styles/GlobalStyle"
 import { RoutesMain as Routes } from "./routes";
-import { ProjectProvider } from "./providers/ProjectContext";
+import { AuthProvider } from "./providers/AuthContext";
 
 export const App = () => {
   return (
     <>
       <GlobalStyle />
 
-      <ProjectProvider>
+      <AuthProvider>
         <Routes />
-      </ProjectProvider>
+      </AuthProvider>
     </>
   )
 }

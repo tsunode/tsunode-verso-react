@@ -10,7 +10,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
                 <label htmlFor={id}>{label}</label>
                 {children}
             </div>
-            {error && <p>{error}</p>}
+            {error && <p className='error-input'>{error}</p>}
         </Container>
     )
 )

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { AiFillEye, AiFillEyeInvisible, AiOutlineArrowLeft } from 'react-icons/ai'
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Input } from "../../components/Input"
@@ -9,10 +9,12 @@ import { IRegisterData } from "./types";
 
 import { Steps } from "./styles";
 import { Main } from "../../styles/Main"
-import { Button } from "../../styles/Button";
+import { Button, Link } from "../../styles/Button";
 import { FormStep } from "../../styles/FormStep";
 
 import tsunodeverso from "../../assets/tsunodeverso.svg"
+import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
     const [step, setStep] = useState(1);
@@ -20,15 +22,28 @@ export const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<IRegisterData>({
         resolver: yupResolver(schema)
     });
+    const navigate = useNavigate();
 
-    function registerUser(data: IRegisterData) {
-        console.log(data);
+    async function registerUser(data: IRegisterData) {
+        try {            
+            await registerUser(data);
+
+            console.log('Cadastro com sucesso');
+
+            navigate('/')
+
+            // @todo colocar notificação para usuario
+        } catch (error) {
+            console.error(error);
+        }
     }
-
-    console.log(errors);
 
     return(
         <Main>
+            <Link variant="inline" to="/">
+                <AiOutlineArrowLeft />
+            </Link>
+
             <img src={tsunodeverso} alt='Logo tsunode verso' /> 
 
             <FormStep step={step} onSubmit={handleSubmit(registerUser)}>
@@ -97,8 +112,8 @@ export const Register = () => {
                                 id='confirm-password' 
                                 label='Confirmar senha:' 
                                 type='text'  
-                                error={errors.confirmPassword?.message}
-                                {...register('confirmPassword')}
+                                error={errors.passwordConfirmation?.message}
+                                {...register('passwordConfirmation')}
                             />
                             <Button type="submit" variant='primary'>Concluir</Button>
                             <Button type="button" variant='inline' onClick={() => setStep(1)}>Voltar</Button>
