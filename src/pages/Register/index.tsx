@@ -1,129 +1,158 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AiFillEye, AiFillEyeInvisible, AiOutlineArrowLeft } from 'react-icons/ai'
+import {
+  AiFillEye,
+  AiFillEyeInvisible,
+  AiOutlineArrowLeft,
+} from 'react-icons/ai';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Input } from "../../components/Input"
-import { schema } from "./validations";
-import { IRegisterData } from "./types";
+import { useNavigate } from 'react-router-dom';
+import { Input } from '../../components/Input';
+import { schema } from './validations';
+import { IRegisterData } from './types';
 
-import { Container, Steps } from "./styles";
-import { Main } from "../../styles/Main"
-import { Button, Link } from "../../styles/Button";
-import { FormStep } from "../../styles/FormStep";
+import { Container, Steps } from './styles';
+import { Main } from '../../styles/Main';
+import { Button, Link } from '../../styles/Button';
+import { FormStep } from '../../styles/FormStep';
 
-import tsunodeverso from "../../assets/tsunodeverso.svg"
-import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import tsunodeverso from '../../assets/tsunodeverso.svg';
+import { useToast } from '../../hooks/useToast';
 
 export const Register = () => {
-    const [step, setStep] = useState(1);
-    const [showPassword, setShowPassword] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm<IRegisterData>({
-        resolver: yupResolver(schema)
-    });
-    const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const { addToast } = useToast();
 
-    async function registerUser(data: IRegisterData) {
-        try {            
-            await registerUser(data);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IRegisterData>({
+    resolver: yupResolver(schema),
+  });
+  const navigate = useNavigate();
 
-            console.log('Cadastro com sucesso');
+  async function registerUser(data: IRegisterData) {
+    try {
+      await registerUser(data);
 
-            navigate('/')
+      console.log('Cadastro com sucesso');
 
-            // @todo colocar notificação para usuario
-        } catch (error) {
-            console.error(error);
-        }
+      navigate('/');
+
+      addToast({
+        type: 'success',
+        title: 'Usuario cadastrado com sucesso',
+      });
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao cadastrar o usuario',
+      });
+      console.error(error);
     }
+  }
 
-    return(
-        <Main>
-            <Link variant="icon" to="/">
-                <AiOutlineArrowLeft />
-            </Link>
+  return (
+    <Main>
+      <Link variant='icon' to='/'>
+        <AiOutlineArrowLeft />
+      </Link>
 
-            <Container>
-                <img src={tsunodeverso} alt='Logo tsunode verso' /> 
+      <Container>
+        <img src={tsunodeverso} alt='Logo tsunode verso' />
 
-                <FormStep step={step} onSubmit={handleSubmit(registerUser)}>
-                    <fieldset>
-                        <legend>Faça seu cadastro:</legend>
+        <FormStep step={step} onSubmit={handleSubmit(registerUser)}>
+          <fieldset>
+            <legend>Faça seu cadastro:</legend>
 
-                        <Steps step={step}>
-                            <div/>
-                            <div/>
-                        </Steps>
+            <Steps step={step}>
+              <div />
+              <div />
+            </Steps>
 
-                        <p>Preencha os seus dados pessoais</p>
+            <p>Preencha os seus dados pessoais</p>
 
-                        <div className="steps-container">
-                            <div>
-                                <Input 
-                                    id='name' 
-                                    label='Name:' 
-                                    type='text'  
-                                    error={errors.name?.message}
-                                    {...register('name')}
-                                />
-                                <Input 
-                                    id='surname' 
-                                    label='Sobrenome:' 
-                                    type='text'
-                                    error={errors.surname?.message}
-                                    {...register('surname')}
-                                />
-                                <Input 
-                                    id='title' 
-                                    label='Título (opcional):' 
-                                    type='text'
-                                    error={errors.title?.message}
-                                    {...register('title')}
-                                />
-                                <Button type="button" variant='primary' onClick={() => setStep(2)}>Próximo</Button>
-                            </div>
-                            
-                            <div>
-                                <Input 
-                                    id='email' 
-                                    label='E-mail:' 
-                                    type='email' 
-                                    error={errors.email?.message}
-                                    {...register('email')} 
-                                />
-                                <Input 
-                                    id='password' 
-                                    label='Senha:' 
-                                    type={showPassword ? 'text' : 'password'}
-                                    error={errors.password?.message} 
-                                    {...register('password')} 
-                                >
-                                    <Button 
-                                        type="button" 
-                                        variant="inline" 
-                                        width="auto"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                    >
-                                    {showPassword ? 
-                                        <AiFillEyeInvisible/> :  <AiFillEye /> }  
-                                    </Button>
-                                </Input>
-                                <Input 
-                                    id='confirm-password' 
-                                    label='Confirmar senha:' 
-                                    type='text'  
-                                    error={errors.passwordConfirmation?.message}
-                                    {...register('passwordConfirmation')}
-                                />
-                                <Button type="submit" variant='primary'>Concluir</Button>
-                                <Button type="button" variant='inline' onClick={() => setStep(1)}>Voltar</Button>
-                            </div>
-                        </div>
-                        
-                    </fieldset>
-                </FormStep>
-            </Container>
-        </Main>
-    )
-}
+            <div className='steps-container'>
+              <div>
+                <Input
+                  id='name'
+                  label='Name:'
+                  type='text'
+                  error={errors.name?.message}
+                  {...register('name')}
+                />
+                <Input
+                  id='surname'
+                  label='Sobrenome:'
+                  type='text'
+                  error={errors.surname?.message}
+                  {...register('surname')}
+                />
+                <Input
+                  id='title'
+                  label='Título (opcional):'
+                  type='text'
+                  error={errors.title?.message}
+                  {...register('title')}
+                />
+                <Button
+                  type='button'
+                  variant='primary'
+                  onClick={() => setStep(2)}
+                >
+                  Próximo
+                </Button>
+              </div>
+
+              <div>
+                <Input
+                  id='email'
+                  label='E-mail:'
+                  type='email'
+                  error={errors.email?.message}
+                  {...register('email')}
+                />
+                <Input
+                  id='password'
+                  label='Senha:'
+                  type={showPassword ? 'text' : 'password'}
+                  error={errors.password?.message}
+                  {...register('password')}
+                >
+                  <Button
+                    type='button'
+                    variant='inline'
+                    width='auto'
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                  </Button>
+                </Input>
+                <Input
+                  id='confirm-password'
+                  label='Confirmar senha:'
+                  type='text'
+                  error={errors.passwordConfirmation?.message}
+                  {...register('passwordConfirmation')}
+                />
+                <Button type='submit' variant='primary'>
+                  Concluir
+                </Button>
+                <Button
+                  type='button'
+                  variant='inline'
+                  onClick={() => setStep(1)}
+                >
+                  Voltar
+                </Button>
+              </div>
+            </div>
+          </fieldset>
+        </FormStep>
+      </Container>
+    </Main>
+  );
+};

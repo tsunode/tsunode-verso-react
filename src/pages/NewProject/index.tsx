@@ -11,11 +11,8 @@ import { Section } from "./styles";
 import { ICreateProject } from "./types";
 
 export const NewProject = () => {
-    const { projects, createProject } = useContext(ProjectContext);
+    const { createProject } = useContext(ProjectContext);
     const { register, handleSubmit, watch } = useForm<ICreateProject>();
-
-    // // FormData()
-    // watch('')
 
     return(
         <main>
