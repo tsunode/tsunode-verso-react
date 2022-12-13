@@ -3,4 +3,5 @@ export interface ICreateProject {
     link: string;
     adtionalLink: string;
     description: string;
+    thumb: File[];
 }

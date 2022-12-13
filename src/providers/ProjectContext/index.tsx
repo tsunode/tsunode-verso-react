@@ -1,10 +1,10 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import { ISearchProjectData } from '../../pages/Dashboard/types';
 import { ICreateProject } from '../../pages/NewProject/types';
-import { api } from '../../services/api';
-import { getAllProjects } from '../../services/projectsService';
-import { IProject, IProjectContext, IProjectProviderProps } from './types';
+import { getAllProjects, storeProject } from '../../services/projectsService';
+import { ICreateProjectKeys, IProject, IProjectContext, IProjectProviderProps } from './types';
 
 export const ProjectContext = createContext<IProjectContext>({} as IProjectContext);
 
@@ -13,6 +13,7 @@ export const ProjectProvider = ({ children }: IProjectProviderProps) => {
     const [page, setPage] = useState(1);
     const [hasNextPage, setHasNextPage] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,13 +59,34 @@ export const ProjectProvider = ({ children }: IProjectProviderProps) => {
     }
 
 
-    function createProject(data: ICreateProject) {
-        console.log(data)
+    async function createProject(data: ICreateProject) {
+        try {    
+            const form = new FormData();
+        
+            Object.keys(data).forEach(key => {
+                if(key === 'thumb') {
+                    form.append(key, data.thumb[0])
+                    return;
+                }
+        
+                form.append(key, data[key as ICreateProjectKeys]);
+            })
+        
+            const project = await storeProject(form);
 
-        // api.post('', data)
+            const newProject = {
+                ...project,
+                user,
+            }
 
-        // setProjects([data, ...projects]);
-        navigate('/dashboard')
+            console.log(user);
+            setProjects([newProject, ...projects])
+        
+            navigate('/dashboard');
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
 

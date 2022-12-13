@@ -5,6 +5,8 @@ import { api } from '../../services/api';
 import { getUserMe } from '../../services/usersService';
 import { createSession } from '../../services/sessionsService';
 import { IAuthContext, IAuthProviderProps, IUser } from './types';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
@@ -41,18 +43,26 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
 
     async function signIn(data: IUserLogin) {
         try {         
-            const { user: userResponse, token }= await createSession(data);
+            const { user: userResponse, token } = await createSession(data);
     
             localStorage.setItem('@tsunode-verso:token', token);
-
-            console.log(location);
 
             const toNavigate = location.state?.from?.pathname || '/dashboard';
 
             setUser(userResponse);
+            toast.success('Login realizado com sucesso');
             navigate(toNavigate, { replace: true });
         } catch (error) {
-            console.error(error)
+            if(!(error instanceof axios.AxiosError)) {
+                toast.error('Erro interno');
+                return; 
+            }
+
+            if(error.response?.status === 401) {
+                toast.error('Usuário ou senha incorretos');
+                return;
+            }
+
         }
     }
 

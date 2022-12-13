@@ -21,3 +21,9 @@ export const Steps = styled.div<IStepsProps>`
         background-color: var(--color-primary);
     }
 `
+
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`

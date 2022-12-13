@@ -14,3 +14,9 @@ export const getAllProjects = async (params: IGetProjectFilter): Promise<IProjec
 
     return response.data;
 }
+
+export const storeProject = async (data: FormData) => {
+    const response = await api.post('projects', data);
+
+    return response.data;
+}

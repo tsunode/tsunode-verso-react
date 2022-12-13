@@ -14,4 +14,10 @@ export const Main = styled.main`
         max-width: 200px;
         margin-bottom: 56px;
     }
+
+    > a {
+        position: fixed;
+        top: 5px;
+        left: 10px;
+    }
 `;

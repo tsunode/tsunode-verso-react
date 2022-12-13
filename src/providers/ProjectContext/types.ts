@@ -28,3 +28,5 @@ export interface IProject {
     updatedAt: Date;
     elapsedTime: string;
 }
+
+export type ICreateProjectKeys = keyof Omit<ICreateProject, 'thumb'>;
